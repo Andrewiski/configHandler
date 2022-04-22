@@ -1,5 +1,10 @@
 # ConfigHandler 
  Node.js Config file helper Class
+ 
+ Install
+ '''
+ npm install @andrewiski/confighandler
+ '''
 
  '''
 'use strict';
