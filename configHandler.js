@@ -36,10 +36,10 @@ var ConfigHandler = function (options, defaultConfig) {
                 debug("info", "Config File Missing Creating with Defaults");
                 try {
                     if(fs.existsSync(configFileFolder)=== false){
-                        fs.mkdirSync(configFileFolder,{recursive:true})
+                        fs.mkdirSync(configFileFolder,{recursive:true,mode:0o660})
                     }
                     //if we Can't read the config its a new config or a broken config so we create it using the defaults
-                    fs.writeFileSync(configFileFullPath, JSON.stringify(defaultConfig, null, 2));
+                    fs.writeFileSync(configFileFullPath, JSON.stringify(defaultConfig, null, 2),{mode:0o660});
                 } catch (ex) {
                     debug("error", "Error Creating New Config File just using defaults", ex);
                 }
@@ -58,7 +58,7 @@ var ConfigHandler = function (options, defaultConfig) {
                     console.log("error", "Error Reading Existing Config File moving to ", badConfigFilePath);
                     fs.copyFileSync(configFileFullPath, badConfigFilePath);
                 }
-                fs.writeFileSync(configFileFullPath, JSON.stringify(defaultConfig, null, 2));
+                fs.writeFileSync(configFileFullPath, JSON.stringify(defaultConfig, null, 2),{mode:0o660});
             } catch (ex) {
                 console.log("error", "Error Creating New Config File just using defaults", ex);
             }
@@ -74,7 +74,7 @@ var ConfigHandler = function (options, defaultConfig) {
             var configFileFolder = self.options.configDirectory;
             var configFileFullPath = path.join(configFileFolder, self.options.configFileName);
             if(fs.existsSync(configFileFolder)=== false){
-                fs.mkdirSync(configFileFolder,{recursive:true})
+                fs.mkdirSync(configFileFolder,{recursive:true,mode:0o660})
             }
             if(self.options.createConfigFileBackups === true && fs.existsSync(configFileFullPath) === true){
                 
@@ -84,7 +84,7 @@ var ConfigHandler = function (options, defaultConfig) {
                     debug("info", "Creating config Backup Folder", backupConfigFolder);
                     
                     if(fs.existsSync(backupConfigFolder)=== false){
-                        fs.mkdirSync(backupConfigFolder,{recursive:true})
+                        fs.mkdirSync(backupConfigFolder,{recursive:true, mode:0o660})
                     }
                     
                 }
@@ -93,7 +93,7 @@ var ConfigHandler = function (options, defaultConfig) {
             }
 
             //if we Can't read the config its a new config or a broken config so we create it using the defaults
-            fs.writeFileSync(configFileFullPath, JSON.stringify(self.config, null, 2));
+            fs.writeFileSync(configFileFullPath, JSON.stringify(self.config, null, 2),{mode:0o660});
         } catch (ex) {
             console.log("error", "Error Creating New Config File just using defaults", ex);
         }

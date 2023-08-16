@@ -1,6 +1,6 @@
 {
     "name": "@andrewiski/confighandler",
-    "version": "1.0.1",
+    "version": "1.0.4",
     "description": "Tool to assist with config files",
     "main": "configHandler.js",
     "license": "GPL-3.0-or-later",
