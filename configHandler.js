@@ -63,7 +63,7 @@ var ConfigHandler = function (options, defaultConfig) {
                 console.log("error", "Error Creating New Config File just using defaults", ex);
             }
         }
-        self.config = extend({}, defaultConfig, configFileSettings);
+        self.config = extend({}, self.options, configFileSettings);
         return self.config;
     };
 
@@ -76,6 +76,9 @@ var ConfigHandler = function (options, defaultConfig) {
             if(fs.existsSync(configFileFolder)=== false){
                 fs.mkdirSync(configFileFolder,{recursive:true,mode:0o660})
             }
+            let configToSave = extend({}, self.options);
+            delete configToSave.configDirectory;
+            delete configToSave.configFileName;
             if(self.options.createConfigFileBackups === true && fs.existsSync(configFileFullPath) === true){
                 
                 var backupConfigFullPath = path.join(configFileFolder, "backups",  getTimeStampFilePrefix() + "-" + self.options.configFileName);
@@ -93,7 +96,7 @@ var ConfigHandler = function (options, defaultConfig) {
             }
 
             //if we Can't read the config its a new config or a broken config so we create it using the defaults
-            fs.writeFileSync(configFileFullPath, JSON.stringify(self.config, null, 2),{mode:0o660});
+            fs.writeFileSync(configFileFullPath, JSON.stringify(configToSave, null, 2),{mode:0o660});
         } catch (ex) {
             console.log("error", "Error Creating New Config File just using defaults", ex);
         }
